@@ -70,3 +70,12 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *pb.UserRequest) (*pb.U
 		Email:  req.Email,
 	}, nil
 }
+
+func (s *UserServer) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteResponse, error) {
+	_, err := db.UserCollection.DeleteOne(ctx, bson.M{"user_id": req.UserId})
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.DeleteResponse{Message: "User deleted successfully"}, nil
+}
